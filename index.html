@@ -3,90 +3,239 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Jaý Çekeleşigi - Bilet Satyn Al</title>
+  <title>Şansly Bilet - Online Portal</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
-    body { background-color: #f4f6f8; color: #333; padding: 20px; }
-    .container { max-width: 600px; margin: 0 auto; background: #fff; padding: 20px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-    h1 { text-align: center; color: #1a252f; margin-bottom: 10px; font-size: 24px; }
-    p.subtitle { text-align: center; color: #7f8c8d; margin-bottom: 20px; }
-    
-    .price-tag { background: #27ae60; color: #fff; text-align: center; padding: 12px; font-size: 20px; font-weight: bold; border-radius: 8px; margin-bottom: 20px; }
-    
-    .form-group { margin-bottom: 15px; }
-    label { display: block; font-weight: bold; margin-bottom: 5px; }
-    input, select { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 16px; }
-    
-    .btn-buy { width: 100%; background: #2980b9; color: #fff; border: none; padding: 14px; font-size: 18px; font-weight: bold; border-radius: 6px; cursor: pointer; margin-top: 10px; }
-    .btn-buy:hover { background: #3498db; }
-    
-    .house-info { margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; }
-    .house-info h3 { margin-bottom: 10px; }
-    .house-info ul { list-style: none; }
-    .house-info li { padding: 5px 0; font-size: 15px; }
+    :root {
+      --bg-color: #0f172a;
+      --card-bg: #1e293b;
+      --primary: #6366f1;
+      --primary-hover: #4f46e5;
+      --accent: #10b981;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --border-color: #334155;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 15px 0 15px;
+    }
+
+    .wrapper {
+      width: 100%;
+      max-width: 480px;
+      margin: auto;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      padding: 30px 24px;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(10px);
+    }
+
+    .brand-header {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .brand-title {
+      font-size: 26px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      background: linear-gradient(135deg, #a5b4fc, #6366f1);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .brand-subtitle {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-top: 6px;
+    }
+
+    .badge-price {
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      text-align: center;
+      padding: 12px;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 16px;
+      margin-bottom: 25px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    input {
+      width: 100%;
+      background: #0f172a;
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 14px 16px;
+      color: var(--text-main);
+      font-size: 15px;
+      outline: none;
+      transition: all 0.3s ease;
+    }
+
+    input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+    }
+
+    .input-readonly {
+      background: rgba(15, 23, 42, 0.6);
+      color: var(--accent);
+      font-weight: 700;
+      font-size: 18px;
+    }
+
+    .btn-submit {
+      width: 100%;
+      background: var(--primary);
+      color: #ffffff;
+      border: none;
+      padding: 16px;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s ease, transform 0.1s ease;
+      margin-top: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-submit:hover {
+      background: var(--primary-hover);
+    }
+
+    .btn-submit:active {
+      transform: scale(0.98);
+    }
+
+    footer {
+      width: 100%;
+      text-align: center;
+      padding: 25px 0;
+      margin-top: 40px;
+      border-top: 1px solid var(--border-color);
+      color: var(--text-muted);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    footer span {
+      display: block;
+      margin-top: 4px;
+      font-size: 11px;
+      opacity: 0.7;
+    }
   </style>
 </head>
 <body>
 
-<div class="container">
-  <h1>Satlyk Jaý Çekeleşigi</h1>
-  <p class="subtitle">10$ töläp uly jaýy utmak mümkinçiligi</p>
-
-  <div class="price-tag">Bilet Bahasy: $10</div>
-
-  <form id="orderForm">
-    <div class="form-group">
-      <label for="fullname">At-Aşadyňyz:</label>
-      <input type="text" id="fullname" placeholder="Meselem: Aman" required>
+<div class="wrapper">
+  <div class="card">
+    <div class="brand-header">
+      <h1 class="brand-title">ŞANSLY BİLET</h1>
+      <p class="brand-subtitle">Sertifikatlaşdyrylan Online Bilet Portaly</p>
     </div>
 
-    <div class="form-group">
-      <label for="phone">Telefon Belgikiňiz:</label>
-      <input type="tel" id="phone" placeholder="+99361234567" required>
+    <div class="badge-price">
+      <span>Bilet Bahasy:</span>
+      <span style="font-size: 20px; font-weight: 700;">$10</span>
     </div>
 
-    <div class="form-group">
-      <label for="count">Bilet Sany:</label>
-      <input type="number" id="count" value="1" min="1" max="100" onchange="updateTotal()" required>
-    </div>
+    <form id="ticketForm">
+      <div class="form-group">
+        <label for="fullname">Atyňyz we Familiýaňyz</label>
+        <input type="text" id="fullname" placeholder="Meselem: Aman Hayitmuradov" required>
+      </div>
 
-    <div class="form-group">
-      <label>Jemi Tölermeli Baha:</label>
-      <input type="text" id="total" value="10$" readonly>
-    </div>
+      <div class="form-group">
+        <label for="phone">Habarlaşmak üçin Tel Belgikiňiz</label>
+        <input type="tel" id="phone" placeholder="+99361234567" required>
+      </div>
 
-    <button type="button" class="btn-buy" onclick="sendWhatsApp()">Bilet Sargat Et (WhatsApp)</button>
-  </form>
+      <div class="form-group">
+        <label for="count">Bilet Sany</label>
+        <input type="number" id="count" value="1" min="1" max="100" oninput="updateTotal()" required>
+      </div>
 
-  <div class="house-info">
-    <h3>Jaý Barada Maglumat:</h3>
-    <ul>
-      <li>🏠 <strong>Meýdany:</strong> Giň çäkli, giň navesli gurluşyk</li>
-      <li>✨ <strong>Remont:</strong> Doly täze modern bejergi</li>
-      <li>📍 <strong>Ýerleşýän ýeri:</strong> Dünýä derejeli, arassa hawa bar ýeri</li>
-    </ul>
+      <div class="form-group">
+        <label>Jemi Töleg Sümmasy</label>
+        <input type="text" id="total" class="input-readonly" value="$10" readonly>
+      </div>
+
+      <button type="button" class="btn-submit" onclick="sendWhatsApp()">
+        <span>Bilet Resmileşdir (WhatsApp)</span>
+      </button>
+    </form>
   </div>
 </div>
 
+<footer>
+  <p>© 2026 Şansly Bilet. Ähli hukuklar goralan.</p>
+  <span>Platforma ygtyýarly ulgam tarapyndan dolandyrylýar.</span>
+</footer>
+
 <script>
   function updateTotal() {
-    const count = document.getElementById('count').value;
-    document.getElementById('total').value = (count * 10) + '$';
+    const countInput = document.getElementById('count');
+    let count = parseInt(countInput.value) || 1;
+    if (count < 1) count = 1;
+    document.getElementById('total').value = '$' + (count * 10);
   }
 
   function sendWhatsApp() {
-    const name = document.getElementById('fullname').value;
-    const phone = document.getElementById('phone').value;
+    const name = document.getElementById('fullname').value.trim();
+    const phone = document.getElementById('phone').value.trim();
     const count = document.getElementById('count').value;
     const total = count * 10;
 
     if (!name || !phone) {
-      alert("Haýyş, ähli meýdançalary dolduryň!");
+      alert("Haýyş edýäris, maglumatlary doly dolduryň!");
       return;
     }
 
-    const adminPhone = "99360000000"; // Adminiň WhatsApp belgisini bärde ýazyň
-    const text = `Salam, men bilet satyn aljak bolýaryn.%0A%0A👤 **At-Aşat:** ${name}%0A📞 **Tel:** ${phone}%0A🎟️ **Bilet Sany:** ${count}%0A💰 **Jemi Baha:** ${total}$`;
+    const adminPhone = "905016873001";
+    const text = `Salam, men bilet satyn aljak bolýaryn.%0A%0A👤 **Müşderi:** ${encodeURIComponent(name)}%0A📞 **Tel:** ${encodeURIComponent(phone)}%0A🎟️ **Bilet Sany:** ${count}%0A💰 **Jemi Baha:** $${total}`;
 
     window.open(`https://wa.me/${adminPhone}?text=${text}`, '_blank');
   }
@@ -94,4 +243,3 @@
 
 </body>
 </html>
-
