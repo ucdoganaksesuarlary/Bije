@@ -173,17 +173,10 @@
       font-weight: 600;
       display: flex;
       justify-content: space-between;
+      margin-bottom: 10px;
     }
 
-    .bank-owner {
-      font-size: 15px;
-      font-weight: 700;
-      color: var(--text-main);
-      margin: 4px 0 8px 0;
-      letter-spacing: 0.5px;
-    }
-
-    .iban-box {
+    .copy-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -191,10 +184,22 @@
       padding: 8px 10px;
       border-radius: 8px;
       border: 1px solid rgba(255,255,255,0.05);
+      margin-bottom: 8px;
+    }
+
+    .copy-row:last-child {
+      margin-bottom: 0;
+    }
+
+    .bank-owner {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-main);
+      letter-spacing: 0.5px;
     }
 
     .iban-text {
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 600;
       color: var(--accent);
       letter-spacing: 0.5px;
@@ -204,12 +209,13 @@
       background: var(--primary);
       color: white;
       border: none;
-      padding: 8px 12px;
+      padding: 6px 10px;
       border-radius: 6px;
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 600;
       cursor: pointer;
       transition: all 0.2s ease;
+      white-space: nowrap;
     }
 
     .btn-copy.copied {
@@ -290,10 +296,17 @@
         <span>ENPARA BANK</span>
         <span style="color: var(--accent);">Töleg üçin</span>
       </div>
-      <div class="bank-owner" id="owner-name">AMAN HAYITMURADOV</div>
-      <div class="iban-box">
-        <span class="iban-text" id="iban">TR91 0015 7000 0000 0201 1511 63</span>
-        <button type="button" class="btn-copy" id="copy-btn" onclick="copyDetails()">Kopiýa et</button>
+
+      <!-- Owner Row -->
+      <div class="copy-row">
+        <span class="bank-owner">AMAN HAYITMURADOV</span>
+        <button type="button" class="btn-copy" id="btn-owner" onclick="copyText('AMAN HAYITMURADOV', 'btn-owner')">Kopiýa et</button>
+      </div>
+
+      <!-- IBAN Row -->
+      <div class="copy-row">
+        <span class="iban-text">TR91 0015 7000 0000 0201 1511 63</span>
+        <button type="button" class="btn-copy" id="btn-iban" onclick="copyText('TR910015700000000201151163', 'btn-iban')">Kopiýa et</button>
       </div>
     </div>
 
@@ -364,12 +377,11 @@
   setInterval(updateCountdown, 1000);
   updateCountdown();
 
-  // Copy Owner Name & IBAN Details Function (Without Browser Alert Popups)
-  function copyDetails() {
-    const textToCopy = "AMAN HAYITMURADOV\nTR910015700000000201151163";
-    const btn = document.getElementById("copy-btn");
+  // Dynamic Copy Function for separate buttons
+  function copyText(text, btnId) {
+    const btn = document.getElementById(btnId);
 
-    navigator.clipboard.writeText(textToCopy).then(() => {
+    navigator.clipboard.writeText(text).then(() => {
       btn.innerText = "Kopiýalandy!";
       btn.classList.add("copied");
 
