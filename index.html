@@ -89,10 +89,9 @@
     }
 
     .timer-display {
-      font-size: 18px;
+      font-size: 17px;
       font-weight: 700;
       color: #a5b4fc;
-      font-mono: monospace;
     }
 
     .badge-price {
@@ -177,10 +176,11 @@
     }
 
     .bank-owner {
-      font-size: 14px;
+      font-size: 15px;
       font-weight: 700;
       color: var(--text-main);
       margin: 4px 0 8px 0;
+      letter-spacing: 0.5px;
     }
 
     .iban-box {
@@ -204,15 +204,16 @@
       background: var(--primary);
       color: white;
       border: none;
-      padding: 6px 10px;
+      padding: 8px 12px;
       border-radius: 6px;
-      font-size: 11px;
+      font-size: 12px;
       font-weight: 600;
       cursor: pointer;
+      transition: all 0.2s ease;
     }
 
-    .btn-copy:active {
-      transform: scale(0.95);
+    .btn-copy.copied {
+      background: var(--accent);
     }
 
     .input-readonly {
@@ -275,7 +276,7 @@
     <!-- Countdown Timer -->
     <div class="timer-box">
       <div class="timer-title">Satyşyň Tamamlanmagyna Galan Wagt:</div>
-      <div class="timer-display" id="countdown">-- Gün -- Sag -- Min -- Sek</div>
+      <div class="timer-display" id="countdown">-- gün -- sag -- min -- sek</div>
     </div>
 
     <div class="badge-price">
@@ -289,10 +290,10 @@
         <span>ENPARA BANK</span>
         <span style="color: var(--accent);">Töleg üçin</span>
       </div>
-      <div class="bank-owner">AMAN HAYITMURADOV</div>
+      <div class="bank-owner" id="owner-name">AMAN HAYITMURADOV</div>
       <div class="iban-box">
         <span class="iban-text" id="iban">TR91 0015 7000 0000 0201 1511 63</span>
-        <button type="button" class="btn-copy" onclick="copyIBAN()">Kopiýa et</button>
+        <button type="button" class="btn-copy" id="copy-btn" onclick="copyDetails()">Kopiýa et</button>
       </div>
     </div>
 
@@ -340,7 +341,7 @@
 </footer>
 
 <script>
-  // Countdown Timer Script (Deadline: 31 Dec 2026 23:59:59)
+  // Countdown Timer (Deadline: 31 Dec 2026 23:59:59)
   const targetDate = new Date("December 31, 2026 23:59:59").getTime();
 
   function updateCountdown() {
@@ -357,17 +358,25 @@
     const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
     const seconds = Math.floor((difference % (1000 * 60)) / 1000);
 
-    document.getElementById("countdown").innerText = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+    document.getElementById("countdown").innerText = `${days} gün ${hours} sag ${minutes} min ${seconds} sek`;
   }
 
   setInterval(updateCountdown, 1000);
   updateCountdown();
 
-  // Copy IBAN Function
-  function copyIBAN() {
-    const ibanText = "TR910015700000000201151163";
-    navigator.clipboard.writeText(ibanText).then(() => {
-      alert("IBAN Kopiýalandy!");
+  // Copy Owner Name & IBAN Details Function (Without Browser Alert Popups)
+  function copyDetails() {
+    const textToCopy = "AMAN HAYITMURADOV\nTR910015700000000201151163";
+    const btn = document.getElementById("copy-btn");
+
+    navigator.clipboard.writeText(textToCopy).then(() => {
+      btn.innerText = "Kopiýalandy!";
+      btn.classList.add("copied");
+
+      setTimeout(() => {
+        btn.innerText = "Kopiýa et";
+        btn.classList.remove("copied");
+      }, 2000);
     });
   }
 
