@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="tk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jaý Çekeleşigi - Bilet Satyn Al</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
+    body { background-color: #f4f6f8; color: #333; padding: 20px; }
+    .container { max-width: 600px; margin: 0 auto; background: #fff; padding: 20px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+    h1 { text-align: center; color: #1a252f; margin-bottom: 10px; font-size: 24px; }
+    p.subtitle { text-align: center; color: #7f8c8d; margin-bottom: 20px; }
+    
+    .price-tag { background: #27ae60; color: #fff; text-align: center; padding: 12px; font-size: 20px; font-weight: bold; border-radius: 8px; margin-bottom: 20px; }
+    
+    .form-group { margin-bottom: 15px; }
+    label { display: block; font-weight: bold; margin-bottom: 5px; }
+    input, select { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 16px; }
+    
+    .btn-buy { width: 100%; background: #2980b9; color: #fff; border: none; padding: 14px; font-size: 18px; font-weight: bold; border-radius: 6px; cursor: pointer; margin-top: 10px; }
+    .btn-buy:hover { background: #3498db; }
+    
+    .house-info { margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; }
+    .house-info h3 { margin-bottom: 10px; }
+    .house-info ul { list-style: none; }
+    .house-info li { padding: 5px 0; font-size: 15px; }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h1>Satlyk Jaý Çekeleşigi</h1>
+  <p class="subtitle">10$ töläp uly jaýy utmak mümkinçiligi</p>
+
+  <div class="price-tag">Bilet Bahasy: $10</div>
+
+  <form id="orderForm">
+    <div class="form-group">
+      <label for="fullname">At-Aşadyňyz:</label>
+      <input type="text" id="fullname" placeholder="Meselem: Aman" required>
+    </div>
+
+    <div class="form-group">
+      <label for="phone">Telefon Belgikiňiz:</label>
+      <input type="tel" id="phone" placeholder="+99361234567" required>
+    </div>
+
+    <div class="form-group">
+      <label for="count">Bilet Sany:</label>
+      <input type="number" id="count" value="1" min="1" max="100" onchange="updateTotal()" required>
+    </div>
+
+    <div class="form-group">
+      <label>Jemi Tölermeli Baha:</label>
+      <input type="text" id="total" value="10$" readonly>
+    </div>
+
+    <button type="button" class="btn-buy" onclick="sendWhatsApp()">Bilet Sargat Et (WhatsApp)</button>
+  </form>
+
+  <div class="house-info">
+    <h3>Jaý Barada Maglumat:</h3>
+    <ul>
+      <li>🏠 <strong>Meýdany:</strong> Giň çäkli, giň navesli gurluşyk</li>
+      <li>✨ <strong>Remont:</strong> Doly täze modern bejergi</li>
+      <li>📍 <strong>Ýerleşýän ýeri:</strong> Dünýä derejeli, arassa hawa bar ýeri</li>
+    </ul>
+  </div>
+</div>
+
+<script>
+  function updateTotal() {
+    const count = document.getElementById('count').value;
+    document.getElementById('total').value = (count * 10) + '$';
+  }
+
+  function sendWhatsApp() {
+    const name = document.getElementById('fullname').value;
+    const phone = document.getElementById('phone').value;
+    const count = document.getElementById('count').value;
+    const total = count * 10;
+
+    if (!name || !phone) {
+      alert("Haýyş, ähli meýdançalary dolduryň!");
+      return;
+    }
+
+    const adminPhone = "99360000000"; // Adminiň WhatsApp belgisini bärde ýazyň
+    const text = `Salam, men bilet satyn aljak bolýaryn.%0A%0A👤 **At-Aşat:** ${name}%0A📞 **Tel:** ${phone}%0A🎟️ **Bilet Sany:** ${count}%0A💰 **Jemi Baha:** ${total}$`;
+
+    window.open(`https://wa.me/${adminPhone}?text=${text}`, '_blank');
+  }
+</script>
+
+</body>
+</html>
+
