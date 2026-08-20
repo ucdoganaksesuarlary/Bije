@@ -52,7 +52,7 @@
 
     .brand-header {
       text-align: center;
-      margin-bottom: 25px;
+      margin-bottom: 20px;
     }
 
     .brand-title {
@@ -70,6 +70,31 @@
       margin-top: 6px;
     }
 
+    /* Timer Box */
+    .timer-box {
+      background: rgba(99, 102, 241, 0.1);
+      border: 1px dashed var(--primary);
+      border-radius: 12px;
+      padding: 12px;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .timer-title {
+      font-size: 11px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+    }
+
+    .timer-display {
+      font-size: 18px;
+      font-weight: 700;
+      color: #a5b4fc;
+      font-mono: monospace;
+    }
+
     .badge-price {
       background: rgba(16, 185, 129, 0.1);
       border: 1px solid var(--accent);
@@ -79,7 +104,7 @@
       border-radius: 12px;
       font-weight: 600;
       font-size: 16px;
-      margin-bottom: 25px;
+      margin-bottom: 20px;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -92,7 +117,7 @@
 
     label {
       display: block;
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 600;
       color: var(--text-muted);
       margin-bottom: 8px;
@@ -100,7 +125,7 @@
       letter-spacing: 0.5px;
     }
 
-    input {
+    input, select {
       width: 100%;
       background: #0f172a;
       border: 1px solid var(--border-color);
@@ -112,7 +137,12 @@
       transition: all 0.3s ease;
     }
 
-    input:focus {
+    select option {
+      background: #0f172a;
+      color: #fff;
+    }
+
+    input:focus, select:focus {
       border-color: var(--primary);
       box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
     }
@@ -127,6 +157,62 @@
       font-size: 12px;
       margin-top: 5px;
       display: none;
+    }
+
+    /* Bank Card Box */
+    .bank-card {
+      background: #0f172a;
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 14px;
+      margin-bottom: 20px;
+    }
+
+    .bank-name {
+      font-size: 12px;
+      color: var(--text-muted);
+      font-weight: 600;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .bank-owner {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-main);
+      margin: 4px 0 8px 0;
+    }
+
+    .iban-box {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(255,255,255,0.03);
+      padding: 8px 10px;
+      border-radius: 8px;
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .iban-text {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--accent);
+      letter-spacing: 0.5px;
+    }
+
+    .btn-copy {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .btn-copy:active {
+      transform: scale(0.95);
     }
 
     .input-readonly {
@@ -186,9 +272,28 @@
       <p class="brand-subtitle">Sertifikatlaşdyrylan Online Bilet Portaly</p>
     </div>
 
+    <!-- Countdown Timer -->
+    <div class="timer-box">
+      <div class="timer-title">Satyşyň Tamamlanmagyna Galan Wagt:</div>
+      <div class="timer-display" id="countdown">-- Gün -- Sag -- Min -- Sek</div>
+    </div>
+
     <div class="badge-price">
       <span>Bilet Bahasy:</span>
       <span style="font-size: 20px; font-weight: 700;">$10</span>
+    </div>
+
+    <!-- Bank Details Box -->
+    <div class="bank-card">
+      <div class="bank-name">
+        <span>ENPARA BANK</span>
+        <span style="color: var(--accent);">Töleg üçin</span>
+      </div>
+      <div class="bank-owner">AMAN HAYITMURADOV</div>
+      <div class="iban-box">
+        <span class="iban-text" id="iban">TR91 0015 7000 0000 0201 1511 63</span>
+        <button type="button" class="btn-copy" onclick="copyIBAN()">Kopiýa et</button>
+      </div>
     </div>
 
     <form id="ticketForm">
@@ -202,6 +307,14 @@
         <label for="phone">Habarlaşmak üçin Telefon Belgiňiz</label>
         <input type="tel" id="phone" placeholder="+99361234567" oninput="clearError('phone')">
         <div id="phone-error" class="error-msg">Haýyş edýäris, telefon belgiňiz ýazyň!</div>
+      </div>
+
+      <div class="form-group">
+        <label for="paymethod">Töleg Usuly</label>
+        <select id="paymethod">
+          <option value="Enpara Bank (Karta)">Enpara Bank (Karta Geçirim)</option>
+          <option value="Nagt / Başga Usul">Başga Töleg Usuly</option>
+        </select>
       </div>
 
       <div class="form-group">
@@ -227,6 +340,37 @@
 </footer>
 
 <script>
+  // Countdown Timer Script (Deadline: 31 Dec 2026 23:59:59)
+  const targetDate = new Date("December 31, 2026 23:59:59").getTime();
+
+  function updateCountdown() {
+    const now = new Date().getTime();
+    const difference = targetDate - now;
+
+    if (difference < 0) {
+      document.getElementById("countdown").innerText = "Satyş Tamamlandy!";
+      return;
+    }
+
+    const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+    document.getElementById("countdown").innerText = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+  }
+
+  setInterval(updateCountdown, 1000);
+  updateCountdown();
+
+  // Copy IBAN Function
+  function copyIBAN() {
+    const ibanText = "TR910015700000000201151163";
+    navigator.clipboard.writeText(ibanText).then(() => {
+      alert("IBAN Kopiýalandy!");
+    });
+  }
+
   function updateTotal() {
     const countInput = document.getElementById('count');
     let count = parseInt(countInput.value) || 1;
@@ -244,6 +388,7 @@
     const phoneInput = document.getElementById('phone');
     const name = nameInput.value.trim();
     const phone = phoneInput.value.trim();
+    const payMethod = document.getElementById('paymethod').value;
     const count = document.getElementById('count').value;
     const total = count * 10;
 
@@ -264,7 +409,7 @@
     if (!isValid) return;
 
     const adminPhone = "905016873001";
-    const text = `Salam, men bilet satyn aljak bolýaryn.%0A%0A👤 **Müşderi:** ${encodeURIComponent(name)}%0A📞 **Tel:** ${encodeURIComponent(phone)}%0A🎟️ **Bilet Sany:** ${count}%0A💰 **Jemi Baha:** $${total}`;
+    const text = `Salam, men bilet satyn aljak bolýaryn.%0A%0A👤 **Müşderi:** ${encodeURIComponent(name)}%0A📞 **Tel:** ${encodeURIComponent(phone)}%0A💳 **Töleg Usuly:** ${encodeURIComponent(payMethod)}%0A🎟️ **Bilet Sany:** ${count}%0A💰 **Jemi Baha:** $${total}`;
 
     window.open(`https://wa.me/${adminPhone}?text=${text}`, '_blank');
   }
